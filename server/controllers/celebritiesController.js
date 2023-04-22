@@ -43,6 +43,16 @@ const post = {
 };
 
 const get = {
+  all: asyncHandler(async (req, res) => {
+    const result = await celebrity.get.all();
+
+    if (typeof result === "object") {
+      res.send(success(result));
+      return;
+    }
+
+    throw new Error(result);
+  }),
   byId: asyncHandler(async (req, res) => {
     const result = await celebrity.get.byId(req.params.id);
 

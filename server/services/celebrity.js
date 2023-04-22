@@ -45,6 +45,18 @@ const post = {
 }
 
 const get = {
+    all: () => {
+        const sql = `SELECT * FROM celebrities`;
+
+        const promise = new Promise((resolve, reject) => {
+            connection.query(sql, (err, result) => {
+                if (err) reject(err);
+                resolve(result);
+            });
+        });
+
+        return promise;
+    },
     byId: (id) => {
         const sql = `SELECT * FROM celebrities WHERE id = ${id}`;
 
