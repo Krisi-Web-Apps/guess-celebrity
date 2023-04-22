@@ -44,6 +44,22 @@ const post = {
     }
 }
 
+const get = {
+    byId: (id) => {
+        const sql = `SELECT * FROM celebrities WHERE id = ${id}`;
+
+        const promise = new Promise((resolve, reject) => {
+            connection.query(sql, (err, result) => {
+                if (err) reject(err);
+                resolve(result);
+            });
+        });
+
+        return promise;
+    }
+}
+
 module.exports = {
-    post
+    post,
+    get
 }

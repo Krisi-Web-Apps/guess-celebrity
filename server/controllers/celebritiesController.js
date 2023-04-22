@@ -42,6 +42,26 @@ const post = {
   })
 };
 
+const get = {
+  byId: asyncHandler(async (req, res) => {
+    const result = await celebrity.get.byId(req.params.id);
+
+    if (typeof result === "object") {
+      console.log(result);
+      if (result.length === 0) {
+        res.send(error("Invalid id"));
+        return;
+      }
+
+      res.send(success(result));
+      return;
+    }
+
+    throw new Error(result);
+  })
+}
+
 module.exports = {
-  post
+  post,
+  get
 };
