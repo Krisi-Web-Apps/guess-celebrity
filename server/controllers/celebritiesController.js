@@ -71,7 +71,27 @@ const get = {
   })
 }
 
+const del = {
+  byId: asyncHandler(async (req, res) => {
+    const result = await celebrity.del.byId(req.params.id);
+
+    if (typeof result === "object") {
+
+      if (result.affectedRows === 0) {
+        res.send(error("Invalid id"));
+        return;
+      }
+
+      res.send(success(result));
+      return;
+    }
+
+    throw new Error(result);
+  })
+}
+
 module.exports = {
   post,
-  get
+  get,
+  del
 };

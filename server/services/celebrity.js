@@ -71,7 +71,24 @@ const get = {
     }
 }
 
+const del = {
+    byId: (id) => {
+        const sql = `DELETE FROM celebrities WHERE id = ${id}`;
+
+        const promise = new Promise((resolve, reject) => {
+            connection.query(sql, (err, result) => {
+                console.log(result);
+                if (err) reject(err);
+                resolve(result);
+            });
+        });
+        
+        return promise;
+    }
+}
+
 module.exports = {
     post,
-    get
+    get,
+    del
 }
