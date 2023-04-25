@@ -13,8 +13,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // routes
-const { initialRouter, celebritiesRouter } = require("./routers");
+const { initialRouter, usersRouter, celebritiesRouter } = require("./routers");
 app.use("/", initialRouter);
+app.use("/users", usersRouter);
 app.use("/celebrities", celebritiesRouter);
 
 app.use(errorHandler);
