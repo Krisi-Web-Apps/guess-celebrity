@@ -1,4 +1,5 @@
 const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
 
 const connection = require("../config/db");
 
@@ -18,6 +19,23 @@ const post = {
     createToken: (email) => {
         const token = jwt.sign({ email }, process.env.JWT_SECRET, { expiresIn: process.env.EXPIRES_IN });
         return token;
+    },
+    passwordHash: (password) => {
+        const salt = bcrypt.genSaltSync(10);
+        const passwordHash = bcrypt.hashSync(password, salt);
+        return passwordHash;
+    },
+    changePassword: (email, password) => {
+        const sql = `UPDATE users SET \`password\`='${password}' WHERE email = '${email}';`;
+
+        const promise = new Promise((resolve, reject) => {
+            connection.query(sql, (err, result) => {
+                if (err) reject(err);
+                resolve(result);
+            });
+        });
+        
+        return promise;
     }
 }
 
