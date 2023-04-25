@@ -31,6 +31,30 @@ const post = {
         }
 
         throw new Error(result);
+    }),
+    login: asyncHandler(async (req, res) => {
+        const { email, password } = req.body;
+
+        if (email == '' || password == '') {
+            res.send(error("The email and password are required"));
+            return;
+        }
+
+        const result = await users.get.byEmail(email);
+        
+        if (typeof result !== "object" || typeof result[0].id !== 'number') {
+            throw new Error(result);
+        }
+
+        if (!bcrypt.compareSync(password, result[0].password)) {
+            res.send(error("The email or password do not match"));
+            return;
+        }
+
+        const token = users.post.createToken(email);
+
+        res.send(success({ token }));
+        return;
     })
 }
 
