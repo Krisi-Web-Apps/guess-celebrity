@@ -14,6 +14,16 @@ const get = {
             }
 
             throw new Error(result);
+        }),
+        all: asyncHandler(async (req, res, next) => {
+            const result = await stats.get.users.all();
+            
+            if (typeof result === "object") {
+                res.send(success(result));
+                return;
+            }
+
+            throw new Error(result);
         })
     }
 }
