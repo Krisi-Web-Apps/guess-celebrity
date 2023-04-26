@@ -8,7 +8,7 @@ const post = {
     register: asyncHandler(async (req, res) => {
         const { email, password, c_password } = req.body;
 
-        if (email == '' || password == '') {
+        if (!email || !password) {
             res.send(error("The email and password are required."));
             return;
         }
@@ -16,6 +16,15 @@ const post = {
         if (password !== c_password) {
             res.send(error("The password's do not match."));
             return;
+        }
+
+        {
+            const result = await users.get.byEmail(email);
+
+            if (typeof result === "object" && result.length !== 0) {
+                res.send(error("Dublicate email address!"));
+                return;
+            }
         }
 
         const passwordHash = users.post.passwordHash(password);
@@ -40,8 +49,13 @@ const post = {
         }
 
         const result = await users.get.byEmail(email);
+
+        if (typeof result === "object" && result.length === 0) {
+            res.send(error("Invalid email address!"));
+            return;
+        }
         
-        if (typeof result !== "object" || typeof result[0].id !== 'number') {
+        if (typeof result !== "object" || typeof result[0]?.id !== 'number') {
             throw new Error(result);
         }
 
