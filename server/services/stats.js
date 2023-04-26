@@ -45,6 +45,18 @@ const get = {
             });
 
             return promise;
+        },
+        all: () => {
+            const sql = `SELECT * FROM celebrities;`;
+
+            const promise = new Promise((resolve, reject) => {
+                connection.query(sql, (err, result) => {
+                    if (err) reject(err);
+                    resolve(result);
+                });
+            });
+
+            return promise;
         }
     }
 }
