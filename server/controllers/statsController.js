@@ -25,6 +25,18 @@ const get = {
 
             throw new Error(result);
         })
+    },
+    celebrities: {
+        count: asyncHandler(async (req, res, next) => {
+            const result = await stats.get.celebrities.count();
+
+            if (typeof result === "object") {
+                res.send(success(result));
+                return;
+            }
+
+            throw new Error(result);
+        })
     }
 }
 
