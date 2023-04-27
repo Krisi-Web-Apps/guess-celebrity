@@ -4,6 +4,10 @@ export const useEnvStore = defineStore("env", {
     state: () => ({
         navbars: {
             rightSideNavbar: false,
+        },
+        dialogs: {
+            register: false,
+            login: false,
         }
     })
 });

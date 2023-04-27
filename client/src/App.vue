@@ -7,6 +7,8 @@
   </div>
   <bottom-navbar />
   <right-side-navbar />
+  <register-view />
+  <login-view />
 </template>
 
 <script>
@@ -15,6 +17,8 @@ import CelebrityForm from "./components/CelebrityForm.vue";
 import DisplayCelebrity from "./components/DisplayCelebrity.vue";
 import BottomNavbar from "./components/BottomNavbar.vue";
 import RightSideNavbar from "./components/navbar/RightSideNavbar.vue";
+import RegisterView from "./components/authentication/RegisterView.vue";
+import LoginView from "./components/authentication/LoginView.vue";
 
 export default {
   name: "App",
@@ -22,7 +26,9 @@ export default {
     CelebrityForm,
     DisplayCelebrity,
     BottomNavbar,
+    RegisterView,
     RightSideNavbar,
+    LoginView,
   },
   setup() {
     const env = useEnvStore();

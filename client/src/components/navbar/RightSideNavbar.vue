@@ -64,6 +64,7 @@ export default {
         cb: () => {
           console.log("Регистрация");
           env.navbars.rightSideNavbar = false;
+          env.dialogs.register = true;
         },
       },
       {
@@ -72,6 +73,7 @@ export default {
         cb: () => {
           console.log("Вход");
           env.navbars.rightSideNavbar = false;
+          env.dialogs.login = true;
         },
       },
     ];
