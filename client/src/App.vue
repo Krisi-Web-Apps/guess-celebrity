@@ -6,12 +6,15 @@
     <celebrity-form />
   </div>
   <bottom-navbar />
+  <right-side-navbar />
 </template>
 
 <script>
+import { useEnvStore } from "./stores/env";
 import CelebrityForm from "./components/CelebrityForm.vue";
 import DisplayCelebrity from "./components/DisplayCelebrity.vue";
 import BottomNavbar from "./components/BottomNavbar.vue";
+import RightSideNavbar from "./components/navbar/RightSideNavbar.vue";
 
 export default {
   name: "App",
@@ -19,6 +22,11 @@ export default {
     CelebrityForm,
     DisplayCelebrity,
     BottomNavbar,
+    RightSideNavbar,
   },
+  setup() {
+    const env = useEnvStore();
+    return { env }
+  }
 };
 </script>
