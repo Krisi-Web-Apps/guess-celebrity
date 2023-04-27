@@ -1,32 +1,58 @@
 require("dotenv").config();
-const mysql = require("mysql");
-const fs = require('fs');
-const colors = require("colors");
+require("colors");
 
-connection = mysql.createConnection({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME,
-});
+const { executeQuery, readSQLFileAsString } = require("../utils");
+const connection = require("../config/db");
 
-connection.connect(function (err) {
-    if (err) throw new Error(err);
+let createdTablesCount = 0;
 
+const SQL_TABLES = [
+    {
+        name: "users",
+        filePath: "sql/users"
+    },
+    {
+        name: "celebrities",
+        filePath: "sql/celebrities"
+    },
+];
+
+const createTables = () => {
     let promises = [];
-    
-    promises.push(createTable("users", fs.readFileSync("sql/users.sql").toString()));
-    promises.push(createTable("celebrities", fs.readFileSync("sql/celebrities.sql").toString()));
 
-    Promise.all(promises).then(() => process.exit(0));
-});
+    SQL_TABLES.forEach(item => {
+        const promise = createTable(item.name, readSQLFileAsString(item.filePath));
+        promises.push(promise);
+    });
 
-const createTable = (name, sql) => {
-    return new Promise((resolve, reject) => {
-        connection.query(sql, (err, result) => {
-            if (err) reject(err);
-            console.log(`${colors.green(name)} table created!`);
-            resolve();
-        });
+    Promise.all(promises).then(() => {
+        console.log(`Created tables count: ${createdTablesCount}`);
+        process.exit(0);
     });
 }
+
+const createTable = async (name, sql) => {
+
+    const checkIsTableExists = `SHOW TABLES LIKE "${name}";`;
+
+    {
+        const result = await executeQuery(checkIsTableExists, connection);
+
+        if (result.length > 0) {
+            console.log(`The table '${name}' already exists!`.yellow);
+            return;
+        }
+    }
+
+    const result = await executeQuery(sql, connection);
+
+    if (typeof result === "object") {
+        createdTablesCount++;
+        console.log(`Table '${name}' is created!`.green);
+        return;
+    }
+
+    throw new Error(result);
+}
+
+createTables();
