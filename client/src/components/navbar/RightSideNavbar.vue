@@ -70,6 +70,7 @@ import LogoutIcon from "../../icons/LogoutIcon.vue";
 
 import { useEnvStore } from "../../stores/env";
 import { useUserStore } from "../../stores/user";
+import { useCelebrityStore } from "../../stores/celebrity";
 
 export default {
   name: "RightSideNavbar",
@@ -89,6 +90,7 @@ export default {
   setup() {
     const env = useEnvStore();
     const user = useUserStore();
+    const celebrity = useCelebrityStore();
     const navbarItemsLoggedOut = [
       {
         name: "Регистрация",
@@ -114,6 +116,14 @@ export default {
         cb: () => {
           env.navbars.rightSideNavbar = false;
           user.logout();
+        }
+      },
+      {
+        name: "Знаменитости",
+        icon: "logout-icon",
+        cb: () => {
+          env.navbars.rightSideNavbar = false;
+          celebrity.dialogs.all = true;
         }
       }
     ];

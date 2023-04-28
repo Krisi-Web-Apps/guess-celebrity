@@ -9,16 +9,19 @@
   <right-side-navbar />
   <register-view />
   <login-view />
+  <celebrity-display-items v-if="celebrity.dialogs.all" />
 </template>
 
 <script>
 import { useEnvStore } from "./stores/env";
+import { useCelebrityStore } from "./stores/celebrity";
 import CelebrityForm from "./components/CelebrityForm.vue";
 import DisplayCelebrity from "./components/DisplayCelebrity.vue";
 import BottomNavbar from "./components/BottomNavbar.vue";
 import RightSideNavbar from "./components/navbar/RightSideNavbar.vue";
 import RegisterView from "./components/authentication/RegisterView.vue";
 import LoginView from "./components/authentication/LoginView.vue";
+import CelebrityDisplayItems from "./components/celebrities/DisplayItems.vue";
 
 export default {
   name: "App",
@@ -29,10 +32,12 @@ export default {
     RegisterView,
     RightSideNavbar,
     LoginView,
+    CelebrityDisplayItems,
   },
   setup() {
     const env = useEnvStore();
-    return { env }
+    const celebrity = useCelebrityStore();
+    return { env, celebrity }
   }
 };
 </script>

@@ -48,6 +48,7 @@ export const useUserStore = defineStore("user", {
                 .then((res) => {
                     if (res.data.status !== "success") {
                         this.alertMessages.error = res.data.message;
+                        this.logout();
                         return;
                     }
 
@@ -76,10 +77,10 @@ export const useUserStore = defineStore("user", {
                 .then((res) => {
                     if (res.data.status !== "success") {
                         this.alertMessages.error = res.data.data.message;
+                        this.logout();
                         return;
                     }
 
-                    console.log(res.data.data);
                     this.me = res.data.data;
                 })
                 .catch((err) => console.log(err))
