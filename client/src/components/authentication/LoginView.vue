@@ -5,7 +5,7 @@
       <p class="text-red-500 text-center py-2" v-if="user.alertMessages.error">
         {{ user.alertMessages.error }}
       </p>
-      <form @submit.prevent="() => user.login(afterLogin)">
+      <form @submit.prevent="user.login">
         <div class="flex flex-col mb-5">
           <label for="email">Имейл адрес</label>
           <div class="flex items-center border border-gray-300 rounded mt-1">
@@ -62,13 +62,7 @@ export default {
   setup() {
     const env = useEnvStore();
     const user = useUserStore();
-
-    function afterLogin() {
-      env.dialogs.login = false;
-      user.alertMessages.error = "";
-    }
-
-    return { env, user, afterLogin };
+    return { env, user };
   },
 };
 </script>

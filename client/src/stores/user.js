@@ -1,5 +1,8 @@
-import api from "../boot/axios";
 import { defineStore } from "pinia";
+
+import api from "../boot/axios";
+
+import { useEnvStore } from "./env";
 
 export const useUserStore = defineStore("user", {
     state: () => ({
@@ -15,7 +18,7 @@ export const useUserStore = defineStore("user", {
         credentials: {
             email: "",
             password: "",
-            cpassword: "",
+            c_password: "",
         },
         isLoggedIn: false,
         me: {},
@@ -25,7 +28,7 @@ export const useUserStore = defineStore("user", {
     actions: {
         register() {
             this.loading = true;
-            
+
             api.post(this.urls.register, this.credentials)
                 .then((res) => {
                     if (res.data.status !== "success") {
@@ -38,9 +41,9 @@ export const useUserStore = defineStore("user", {
                 .catch((err) => console.log(err))
                 .finally(() => this.loading = false);
         },
-        login(cb) {
+        login() {
             this.loading = true;
-            
+
             api.post(this.urls.login, this.credentials)
                 .then((res) => {
                     if (res.data.status !== "success") {
@@ -49,7 +52,6 @@ export const useUserStore = defineStore("user", {
                     }
 
                     this.afterLogin(res.data.data.token);
-                    cb();
                 })
                 .catch((err) => console.log(err))
                 .finally(() => this.loading = false);
@@ -58,6 +60,10 @@ export const useUserStore = defineStore("user", {
             localStorage.setItem("token", token);
             api.defaults.headers.authorization = `Bearer ${token}`;
             this.isLoggedIn = true;
+            const env = useEnvStore();
+            env.dialogs.login = false;
+            env.dialogs.register = false;
+            this.alertMessages.error = "";
             this.getUser();
         },
         logout() {
