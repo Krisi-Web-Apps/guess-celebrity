@@ -18,10 +18,14 @@ const isAuth = (req, res, next) => {
 
     const splittedToken = token.split(" ")[1];
 
-    if (!jwt.verify(splittedToken, process.env.JWT_SECRET)) {
+    const decoded = jwt.verify(splittedToken, process.env.JWT_SECRET);
+
+    if (!decoded) {
         throw new Error("You are not authorized.");
     }
 
+    req.user = decoded;
+    
     next();
 }
 

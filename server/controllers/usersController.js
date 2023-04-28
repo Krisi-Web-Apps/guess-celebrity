@@ -113,6 +113,24 @@ const post = {
     })
 }
 
+const get = {
+    currentUser: asyncHandler(async (req, res, next) => {
+        const email = req.user.email;
+
+        const result = await users.get.byEmail(email);
+
+        if (typeof result === "object" && result.length !== 0) {
+            const user = result[0];
+            delete user.password;
+            res.send(success(user));
+            return;
+        }
+
+        throw new Error(result);
+    })
+}
+
 module.exports = {
     post,
+    get,
 }
