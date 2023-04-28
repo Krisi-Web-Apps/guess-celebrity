@@ -11,7 +11,7 @@ const post = {
       result = await celebrity.post.update(req.body.id, req.body);
 
       if (result.affectedRows === 0) {
-        res.send(error("Invalid id"));
+        res.status(400).send(error("Invalid id"));
         return;
       }
     } else {
@@ -27,7 +27,7 @@ const post = {
   }),
   createBulk: asyncHandler(async (req, res) => {
     if (!Array.isArray(req.body)) {
-      res.send(error("The input must be an array"));
+      res.status(400).send(error("The input must be an array"));
       return;
     }
 
@@ -59,7 +59,7 @@ const get = {
     if (typeof result === "object") {
       console.log(result);
       if (result.length === 0) {
-        res.send(error("Invalid id"));
+        res.status(400).send(error("Invalid id"));
         return;
       }
 
@@ -78,7 +78,7 @@ const del = {
     if (typeof result === "object") {
 
       if (result.affectedRows === 0) {
-        res.send(error("Invalid id"));
+        res.status(400).send(error("Invalid id"));
         return;
       }
 
