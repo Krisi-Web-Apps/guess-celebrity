@@ -12,9 +12,10 @@
       :class="hideOrShow"
     >
       <h4 class="text-xl mt-2 ml-5 mb-5">Навигация</h4>
-      <ul>
+      <!-- starts logged in items -->
+      <ul v-if="!user.isLoggedIn">
         <li
-          v-for="(item, index) in navbarItems"
+          v-for="(item, index) in navbarItemsLoggedOut"
           :key="index"
           class="py-2 px-5 hover:bg-gray-100 cursor-pointer"
           @click="() => item.cb()"
@@ -25,6 +26,30 @@
           </div>
         </li>
       </ul>
+      <!-- ends logged in items -->
+      <!-- starts logged out items -->
+      <ul v-else>
+        <li
+          class="py-2 px-5 hover:bg-gray-100 cursor-pointer"
+        >
+          <div class="flex">
+            <user-icon />
+            <span class="ml-2">Здравей, {{ user.me.email }}</span>
+          </div>
+        </li>
+        <li
+          v-for="(item, index) in navbarItemsLoggedIn"
+          :key="index"
+          class="py-2 px-5 hover:bg-gray-100 cursor-pointer"
+          @click="() => item.cb()"
+        >
+          <div class="flex">
+            <component :is="item.icon" />
+            <span class="ml-2">{{ item.name }}</span>
+          </div>
+        </li>
+      </ul>
+      <!-- ends logged out items -->
       <x-mark-icon
         class="absolute top-2 right-2 cursor-pointer"
         @click="
@@ -40,7 +65,11 @@ import XMarkIcon from "../../icons/XMarkIcon.vue";
 import BarsIcon from "../../icons/BarsIcon.vue";
 import UserPlusIcon from "../../icons/UserPlusIcon.vue";
 import LockClosedIcon from "../../icons/LockClosedIcon.vue";
+import UserIcon from "../../icons/UserIcon.vue";
+import LogoutIcon from "../../icons/LogoutIcon.vue";
+
 import { useEnvStore } from "../../stores/env";
+import { useUserStore } from "../../stores/user";
 
 export default {
   name: "RightSideNavbar",
@@ -49,6 +78,8 @@ export default {
     BarsIcon,
     UserPlusIcon,
     LockClosedIcon,
+    UserIcon,
+    LogoutIcon,
   },
   computed: {
     hideOrShow() {
@@ -57,12 +88,12 @@ export default {
   },
   setup() {
     const env = useEnvStore();
-    const navbarItems = [
+    const user = useUserStore();
+    const navbarItemsLoggedOut = [
       {
         name: "Регистрация",
         icon: "user-plus-icon",
         cb: () => {
-          console.log("Регистрация");
           env.navbars.rightSideNavbar = false;
           env.dialogs.register = true;
         },
@@ -71,13 +102,22 @@ export default {
         name: "Вход",
         icon: "lock-closed-icon",
         cb: () => {
-          console.log("Вход");
           env.navbars.rightSideNavbar = false;
           env.dialogs.login = true;
         },
       },
     ];
-    return { env, navbarItems };
+    const navbarItemsLoggedIn = [
+      {
+        name: "Изход",
+        icon: "logout-icon",
+        cb: () => {
+          env.navbars.rightSideNavbar = false;
+          user.logout();
+        }
+      }
+    ];
+    return { env, user, navbarItemsLoggedOut, navbarItemsLoggedIn };
   },
 };
 </script>

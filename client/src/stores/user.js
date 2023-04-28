@@ -17,6 +17,7 @@ export const useUserStore = defineStore("user", {
             password: "",
             cpassword: "",
         },
+        isLoggedIn: false,
         me: {},
         item: {},
         items: []
@@ -56,7 +57,13 @@ export const useUserStore = defineStore("user", {
         afterLogin(token) {
             localStorage.setItem("token", token);
             api.defaults.headers.authorization = `Bearer ${token}`;
+            this.isLoggedIn = true;
             this.getUser();
+        },
+        logout() {
+            localStorage.clear();
+            api.defaults.headers.authorization = null;
+            this.isLoggedIn = false;
         },
         getUser() {
             api.get(this.urls.user)
@@ -66,6 +73,7 @@ export const useUserStore = defineStore("user", {
                         return;
                     }
 
+                    console.log(res.data.data);
                     this.me = res.data.data;
                 })
                 .catch((err) => console.log(err))
