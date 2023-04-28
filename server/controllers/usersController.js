@@ -9,24 +9,18 @@ const post = {
         const { email, password, c_password } = req.body;
 
         if (!email || !password) {
-            res.status(400)
-                .send(error("The email and password are required."));
-            return;
+            throw new Error("The email and password are required.");
         }
 
         if (password !== c_password) {
-            res.status(400)
-                .send(error("The password's do not match."));
-            return;
+            throw new Error("The password's do not match.");
         }
 
         {
             const result = await users.get.byEmail(email);
 
             if (typeof result === "object" && result.length !== 0) {
-                res.status(409)
-                    .send(error("Dublicate email address!"));
-                return;
+                throw new Error("Dublicate email address!");
             }
         }
 
@@ -47,17 +41,13 @@ const post = {
         const { email, password } = req.body;
 
         if (email == '' || password == '') {
-            res.status(400)
-                .send(error("The email and password are required."));
-            return;
+            throw new Error("The email and password are required.");
         }
 
         const result = await users.get.byEmail(email);
 
         if (typeof result === "object" && result.length === 0) {
-            res.status(400)
-                .send(error("Invalid email address!"));
-            return;
+            throw new Error("The email or password do not valid.");
         }
 
         if (typeof result !== "object" || typeof result[0]?.id !== 'number') {
@@ -65,9 +55,7 @@ const post = {
         }
 
         if (!bcrypt.compareSync(password, result[0].password)) {
-            res.status(400)
-                .send(error("The email or password do not match."));
-            return;
+            throw new Error("The email or password do not valid.");
         }
 
         const token = users.post.createToken(email);
@@ -79,15 +67,11 @@ const post = {
         const { email, old_password, new_password } = req.body;
 
         if (email == '' || old_password == '' || new_password == '') {
-            res.status(400)
-                .send(error("The email, old password and new password are required."));
-            return;
+            throw new Error("The email, old password and new password are required.");
         }
 
         if (old_password === new_password) {
-            res.status(400)
-                .send(error("The new password must be different from the old password."));
-            return;
+            throw new Error("The new password must be different from the old password.");
         }
 
         {
@@ -98,15 +82,11 @@ const post = {
             }
 
             if (Array.from(result).length === 0) {
-                res.status(400)
-                    .send(error("Invalid email address!"));
-                return;
+                throw new Error("Invalid email address!");
             }
 
             if (!bcrypt.compareSync(old_password, result[0].password)) {
-                res.status(400)
-                    .send(error("The old password is wrong!"));
-                return;
+                throw new Error("The old password is wrong!");
             }
         }
 
@@ -115,9 +95,7 @@ const post = {
         const result = await users.post.changePassword(email, passwordHash);
 
         if (result.affectedRows === 0) {
-            res.status(409)
-                .send(error("Invalid email address!"));
-            return;
+            throw new Error("Invalid email address!");
         }
 
         res.send(success());

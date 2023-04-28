@@ -11,8 +11,7 @@ const post = {
       result = await celebrity.post.update(req.body.id, req.body);
 
       if (result.affectedRows === 0) {
-        res.status(400).send(error("Invalid id"));
-        return;
+        throw new Error("Invalid id.");
       }
     } else {
       result = await celebrity.post.create(req.body);
@@ -27,8 +26,7 @@ const post = {
   }),
   createBulk: asyncHandler(async (req, res) => {
     if (!Array.isArray(req.body)) {
-      res.status(400).send(error("The input must be an array"));
-      return;
+      throw new Error("The input must be an array.");
     }
 
     const result = await celebrity.post.createBulk(req.body);
@@ -57,10 +55,8 @@ const get = {
     const result = await celebrity.get.byId(req.params.id);
 
     if (typeof result === "object") {
-      console.log(result);
       if (result.length === 0) {
-        res.status(400).send(error("Invalid id"));
-        return;
+        throw new Error("Invalid id.");
       }
 
       res.send(success(result));
@@ -78,8 +74,7 @@ const del = {
     if (typeof result === "object") {
 
       if (result.affectedRows === 0) {
-        res.status(400).send(error("Invalid id"));
-        return;
+        throw new Error("Invalid id.");
       }
 
       res.send(success(result));

@@ -32,7 +32,7 @@ export const useUserStore = defineStore("user", {
             api.post(this.urls.register, this.credentials)
                 .then((res) => {
                     if (res.data.status !== "success") {
-                        this.alertMessages.error = res.data.data.message;
+                        this.alertMessages.error = res.data.message;
                         return;
                     }
 
@@ -54,7 +54,10 @@ export const useUserStore = defineStore("user", {
 
                     this.afterLogin(res.data.data.token);
                 })
-                .catch((err) => console.log(err))
+                .catch((err) => {
+                    console.log(err);
+                    this.alertMessages.error = err.message;
+                })
                 .finally(() => this.loading = false);
         },
         afterLogin(token) {
@@ -83,7 +86,10 @@ export const useUserStore = defineStore("user", {
 
                     this.me = res.data.data;
                 })
-                .catch((err) => console.log(err))
+                .catch((err) => {
+                    console.log(err);
+                    this.alertMessages.error = err.message;
+                })
                 .finally(() => this.loading = false);
         }
     }
