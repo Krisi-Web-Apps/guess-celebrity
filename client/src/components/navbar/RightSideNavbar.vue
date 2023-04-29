@@ -12,6 +12,21 @@
       :class="hideOrShow"
     >
       <h4 class="text-xl mt-2 ml-5 mb-5">Навигация</h4>
+      <!-- starts items -->
+      <ul>
+        <li
+          v-for="(item, index) in navbarItems"
+          :key="index"
+          class="py-2 px-5 hover:bg-gray-100 cursor-pointer"
+          @click="() => item.cb()"
+        >
+          <div class="flex">
+            <component :is="item.icon" />
+            <span class="ml-2">{{ item.name }}</span>
+          </div>
+        </li>
+      </ul>
+      <!-- ends items -->
       <!-- starts logged in items -->
       <ul v-if="!user.isLoggedIn">
         <li
@@ -72,6 +87,8 @@ import {
   UserIcon,
   UserPlusIcon,
   XMarkIcon,
+  PlayIcon,
+  CelebrityIcon,
 } from "../../icons";
 
 export default {
@@ -83,6 +100,8 @@ export default {
     UserIcon,
     UserPlusIcon,
     XMarkIcon,
+    PlayIcon,
+    CelebrityIcon,
   },
   computed: {
     hideOrShow() {
@@ -122,14 +141,24 @@ export default {
       },
       {
         name: "Знаменитости",
-        icon: "logout-icon",
+        icon: "celebrity-icon",
         cb: () => {
           env.navbars.rightSideNavbar = false;
           celebrity.dialogs.all = true;
         },
       },
     ];
-    return { env, user, navbarItemsLoggedOut, navbarItemsLoggedIn };
+    const navbarItems = [
+      {
+        name: "Играй",
+        icon: "play-icon",
+        cb: () => {
+          env.dialogs.theQuizView = true;
+          env.navbars.rightSideNavbar = false;
+        },
+      },
+    ];
+    return { env, user, navbarItemsLoggedOut, navbarItemsLoggedIn, navbarItems };
   },
 };
 </script>

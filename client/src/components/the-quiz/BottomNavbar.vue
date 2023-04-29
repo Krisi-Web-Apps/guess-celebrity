@@ -1,7 +1,7 @@
 <template>
-  <div class="fixed bottom-0 w-full border-t border-primary h-20">
+  <div class="w-full border-t border-gray-200 h-20">
     <div
-      class="container mx-auto text-xl flex items-center gap-5 w-full h-full"
+      class="mx-auto text-xl flex items-center justify-center gap-5 w-full h-full"
     >
       <button
         class="py-2 px-4 rounded text-white border-green-600 bg-green-600"
@@ -27,7 +27,7 @@
         @click="
           () => {
             theQuiz.restart();
-            $emit('restart', 'restart');
+            theQuiz.start();
           }
         "
       >

@@ -1,6 +1,9 @@
 import { defineStore } from "pinia";
 
 import api from "../boot/axios";
+
+import { useEnvStore } from "./env";
+
 import { shuffle } from "../utils";
 
 export const useCelebrityStore = defineStore("celebrity", {
@@ -68,6 +71,7 @@ export const useTheQuizStore = defineStore("the-quiz", {
                 .finally(() => this.loading = false);
         },
         start() {
+            this.restart();
             this.getItems();
         },
         nextItem() {
@@ -98,14 +102,18 @@ export const useTheQuizStore = defineStore("the-quiz", {
         },
         end() {
             this.status.isPlaying = false;
+            const env = useEnvStore();
+            setTimeout(() => {
+                env.dialogs.theQuizView = false;
+            }, 3000);
         },
         restart() {
             this.stats.correctCount = 0;
             this.stats.incorrectCount = 0;
             this.stats.answeredCount = 0;
+            this.currentItemIndex = 0;
             this.form.famous_name = "";
             this.status.isPlaying = true;
-            this.start();
         }
     }
 });

@@ -1,9 +1,9 @@
 <template>
   <div class="flex justify-center" v-if="theQuiz.item">
-    <div class="w-[300px] h-[300px] rounded-full overflow-hidden">
+    <div class="w-[400px] h-[300px] rounded overflow-hidden">
       <img
         :src="theQuiz.item.image_url"
-        class="w-full h-auto"
+        class="w-full h-full"
       />
     </div>
   </div>

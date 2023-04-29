@@ -9,7 +9,7 @@
           class="w-full py-2 px-2 border rounded mb-1 hover:bg-gray-200"
         >
           <div class="flex items-center">
-            <div class="w-12 h-12 rounded-full shadow overflow-hidden">
+            <div class="w-12 rounded shadow overflow-hidden">
               <img
                 :src="item.image_url"
                 :alt="item.name"

@@ -1,15 +1,14 @@
 <template>
-  <h1 class="text-4xl text-center my-10">Познай извесната личност</h1>
-
-  <div class="container mx-auto border shadow-lg p-5">
-    <display-celebrity />
-    <celebrity-form />
+  <div
+    class="bg-cover w-full h-screen"
+    :style="{ 'background-image': 'url(' + env.currentBackground + ')' }"
+  >
+    <the-quiz-view v-if="env.dialogs.theQuizView" />
+    <right-side-navbar />
+    <register-view />
+    <login-view />
+    <celebrity-display-items v-if="celebrity.dialogs.all" />
   </div>
-  <bottom-navbar />
-  <right-side-navbar />
-  <register-view />
-  <login-view />
-  <celebrity-display-items v-if="celebrity.dialogs.all" />
 </template>
 
 <script>
@@ -21,7 +20,7 @@ import { useCelebrityStore } from "./stores/celebrity";
 import { RightSideNavbar } from "./components/navbar";
 import { RegisterView, LoginView } from "./components/authentication";
 import { CelebrityDisplayItems } from "./components/celebrities";
-import { DisplayCelebrity, BottomNavbar, CelebrityForm } from "./components/the-quiz";
+import { TheQuizView } from "./components/the-quiz";
 
 export default {
   name: "App",
@@ -30,14 +29,12 @@ export default {
     RegisterView,
     LoginView,
     CelebrityDisplayItems,
-    DisplayCelebrity,
-    BottomNavbar,
-    CelebrityForm,
+    TheQuizView,
   },
   setup() {
     const env = useEnvStore();
     const celebrity = useCelebrityStore();
-    return { env, celebrity }
-  }
+    return { env, celebrity };
+  },
 };
 </script>
