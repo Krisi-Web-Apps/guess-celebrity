@@ -34,6 +34,7 @@ export default {
   setup() {
     const env = useEnvStore();
     const celebrity = useCelebrityStore();
+    env.getRandomBackground();
     return { env, celebrity };
   },
 };
