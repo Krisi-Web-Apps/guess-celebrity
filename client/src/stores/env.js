@@ -14,13 +14,14 @@ export const useEnvStore = defineStore("env", {
         dialogs: {
             register: false,
             login: false,
-            theQuizView: true,
+            theQuizView: false,
+            celebrityForm: false,
+            celebrityList: false,
         }
     }),
     actions: {
         getRandomBackground() {
             const randomNumber = Math.floor(Math.random(1) * this.backgrounds.length);
-            console.log(randomNumber);
             this.currentBackground = this.backgrounds[randomNumber];
         }
     }

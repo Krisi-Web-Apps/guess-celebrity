@@ -9,9 +9,6 @@ import { shuffle } from "../utils";
 export const useCelebrityStore = defineStore("celebrity", {
     state: () => ({
         loading: false,
-        dialogs: {
-            all: false,
-        },
         urls: {
             get: "/celebrities"
         },
@@ -95,7 +92,7 @@ export const useTheQuizStore = defineStore("the-quiz", {
             } else {
                 this.stats.incorrectCount++;
             }
-            
+
             this.nextItem();
             this.stats.answeredCount++;
             this.form.famous_name = "";

@@ -1,9 +1,8 @@
 <template>
-  <div
-    class="fixed top-0 left-0 w-full h-screen flex justify-center items-center bg-gray-400/20"
-  >
+  <div class="fixed w-full h-screen flex justify-center items-center">
     <div
-      class="relative w-[50%] bg-white border border-gray-300 rounded shadow-md"
+      class="absolute bg-white border border-gray-300 rounded shadow-md"
+      :class="props.size"
     >
       <x-mark-icon
         class="absolute top-2 right-2 hover:text-black/60 cursor-pointer"
@@ -22,15 +21,22 @@ import { useEnvStore } from "../../stores/env";
 import { XMarkIcon } from "../../icons";
 
 export default {
-  name: "MediumDialog",
+  name: "CustomDialog",
+  props: {
+    size: {
+      type: String,
+      default: "w-1/2",
+      required: false,
+    },
+  },
   components: {
     // icons
     XMarkIcon,
   },
-  setup() {
+  setup(props) {
     const env = useEnvStore();
-    return { env }
-  }
+    return { env, props };
+  },
 };
 </script>
 

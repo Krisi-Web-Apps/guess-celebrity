@@ -1,1 +1,1 @@
-export { default as MediumDialog } from "./MediumDialog.vue";
+export { default as CustomDialog } from "./CustomDialog.vue";

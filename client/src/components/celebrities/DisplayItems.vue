@@ -1,7 +1,14 @@
 <template>
-  <medium-dialog @close="celebrity.dialogs.all = false">
-    <div class="p-5" v-if="!celebrity.loading">
-      <h2 class="text-2xl text-center">Знаменитости ({{ celebrity.items.length }})</h2>
+  <custom-dialog @close="handleClose">
+    <div class="p-5 mt-5" v-if="!celebrity.loading">
+      <div class="flex justify-between items-center">
+        <h2 class="text-2xl text-center">
+          Знаменитости ({{ celebrity.items.length }})
+        </h2>
+        <button @click="openCelebrityForm" class="primary-btn">
+          Добави Нова
+        </button>
+      </div>
       <ul class="mt-5 max-h-[60vh] overflow-y-scroll">
         <li
           v-for="(item, index) in celebrity.items"
@@ -24,26 +31,39 @@
     <div v-else>
       <div>Зареждане...</div>
     </div>
-  </medium-dialog>
+  </custom-dialog>
 </template>
 
 <script>
 //stores
 import { useCelebrityStore } from "../../stores/celebrity";
+import { useEnvStore } from "../../stores/env";
 
 // dialogs
-import { MediumDialog } from "../dialogs";
+import { CustomDialog } from "../dialogs";
 
 export default {
   name: "DisplayItems",
   components: {
     // dialogs
-    MediumDialog,
+    CustomDialog,
   },
   setup() {
+    const env = useEnvStore();
     const celebrity = useCelebrityStore();
     celebrity.getItems();
-    return { celebrity };
+
+    const handleClose = () => {
+      env.dialogs.celebrityList = false;
+      env.navbars.rightSideNavbar = true;
+    }
+
+    const openCelebrityForm = () => {
+      env.dialogs.celebrityForm = true;
+      env.dialogs.celebrityList = false;
+    }
+
+    return { env, celebrity, handleClose, openCelebrityForm };
   },
 };
 </script>

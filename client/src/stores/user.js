@@ -67,6 +67,7 @@ export const useUserStore = defineStore("user", {
             const env = useEnvStore();
             env.dialogs.login = false;
             env.dialogs.register = false;
+            env.navbars.rightSideNavbar = true;
             this.alertMessages.error = "";
             this.getUser();
         },
@@ -87,8 +88,8 @@ export const useUserStore = defineStore("user", {
                     this.me = res.data.data;
                 })
                 .catch((err) => {
-                    console.log(err);
                     this.alertMessages.error = err.message;
+                    this.logout();
                 })
                 .finally(() => this.loading = false);
         }

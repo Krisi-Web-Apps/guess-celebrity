@@ -1,7 +1,7 @@
 <template>
   <transition>
-    <medium-dialog v-if="env.dialogs.login" @close="env.dialogs.login = false">
-      <div class="w-full p-5">
+    <custom-dialog v-if="env.dialogs.login" @close="handleClose">
+      <div class="w-full h-full p-5">
         <h1 class="text-xl text-center">Влезте в профила си</h1>
         <p
           class="text-red-500 text-center py-2"
@@ -20,6 +20,7 @@
                 v-model="user.credentials.email"
                 placeholder="Въведете имейм адреса си..."
                 class="w-full py-2 rounded outline-none focus:pl-2 transition-all"
+                autofocus
               />
             </div>
           </div>
@@ -37,16 +38,11 @@
             </div>
           </div>
           <div>
-            <button
-              type="submit"
-              class="py-2 px-5 border border-gray-300 rounded hover:bg-gray-100 focus:bg-gray-200 outline-none"
-            >
-              Вход в профила
-            </button>
+            <button type="submit" class="primary-btn">Вход в профила</button>
           </div>
         </form>
       </div>
-    </medium-dialog>
+    </custom-dialog>
   </transition>
 </template>
 
@@ -59,13 +55,13 @@ import { useUserStore } from "../../stores/user";
 import { EnvelopeIcon, LockClosedIcon } from "../../icons";
 
 // dialogs
-import { MediumDialog } from "../dialogs";
+import { CustomDialog } from "../dialogs";
 
 export default {
   name: "LoginView",
   components: {
     // dialogs
-    MediumDialog,
+    CustomDialog,
 
     // icons
     EnvelopeIcon,
@@ -74,7 +70,15 @@ export default {
   setup() {
     const env = useEnvStore();
     const user = useUserStore();
-    return { env, user };
+
+    user.alertMessages.error = "";
+
+    const handleClose = () => {
+      env.dialogs.login = false;
+      env.navbars.rightSideNavbar = true;
+    };
+
+    return { env, user, handleClose };
   },
 };
 </script>
