@@ -43,7 +43,11 @@ export default {
       famousName.value.focus();
     };
 
-    return { theQuiz, famousName, handleChecking };
+    const restart = () => {
+      console.log(0);
+    }
+
+    return { theQuiz, famousName, handleChecking, restart };
   },
 };
 </script>

@@ -37,7 +37,6 @@ export const useTheQuizStore = defineStore("the-quiz", {
             get: "/celebrities"
         },
         status: {
-            win: false,
             isPlaying: true,
         },
         stats: {
@@ -68,6 +67,9 @@ export const useTheQuizStore = defineStore("the-quiz", {
                 .catch(err => console.log(err))
                 .finally(() => this.loading = false);
         },
+        start() {
+            this.getItems();
+        },
         nextItem() {
             if (this.currentItemIndex + 1 === this.items.length) {
                 this.end();
@@ -96,6 +98,14 @@ export const useTheQuizStore = defineStore("the-quiz", {
         },
         end() {
             this.status.isPlaying = false;
+        },
+        restart() {
+            this.stats.correctCount = 0;
+            this.stats.incorrectCount = 0;
+            this.stats.answeredCount = 0;
+            this.form.famous_name = "";
+            this.status.isPlaying = true;
+            this.start();
         }
     }
 });

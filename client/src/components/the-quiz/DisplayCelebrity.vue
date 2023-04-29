@@ -17,7 +17,7 @@ export default {
   name: "DisplayCelebrity",
   setup() {
     const theQuiz = useTheQuizStore();
-    theQuiz.getItems();
+    theQuiz.start();
     return { theQuiz }
   }
 };
