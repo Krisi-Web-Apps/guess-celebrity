@@ -59,20 +59,25 @@
 </template>
 
 <script>
-import MediumDialog from "../dialogs/MediumDialog.vue";
-
+// stores
 import { useEnvStore } from "../../stores/env";
 import { useUserStore } from "../../stores/user";
 
-import LockClosedIcon from "../../icons/LockClosedIcon.vue";
-import EnvelopeIcon from "../../icons/EnvelopeIcon.vue";
+// dialogs
+import { MediumDialog } from "../dialogs";
+
+// icons
+import { EnvelopeIcon, LockClosedIcon } from "../../icons";
 
 export default {
   name: "RegisterView",
   components: {
+    // dialogs
     MediumDialog,
-    LockClosedIcon,
+
+    // icons
     EnvelopeIcon,
+    LockClosedIcon,
   },
   setup() {
     const env = useEnvStore();

@@ -29,9 +29,7 @@
       <!-- ends logged in items -->
       <!-- starts logged out items -->
       <ul v-else>
-        <li
-          class="py-2 px-5 hover:bg-gray-100 cursor-pointer"
-        >
+        <li class="py-2 px-5 hover:bg-gray-100 cursor-pointer">
           <div class="flex">
             <user-icon />
             <span class="ml-2">Здравей, {{ user.me.email }}</span>
@@ -61,26 +59,30 @@
 </template>
 
 <script>
-import XMarkIcon from "../../icons/XMarkIcon.vue";
-import BarsIcon from "../../icons/BarsIcon.vue";
-import UserPlusIcon from "../../icons/UserPlusIcon.vue";
-import LockClosedIcon from "../../icons/LockClosedIcon.vue";
-import UserIcon from "../../icons/UserIcon.vue";
-import LogoutIcon from "../../icons/LogoutIcon.vue";
-
+// stores
 import { useEnvStore } from "../../stores/env";
 import { useUserStore } from "../../stores/user";
 import { useCelebrityStore } from "../../stores/celebrity";
 
+// icons
+import {
+  BarsIcon,
+  LockClosedIcon,
+  LogoutIcon,
+  UserIcon,
+  UserPlusIcon,
+  XMarkIcon,
+} from "../../icons";
+
 export default {
   name: "RightSideNavbar",
   components: {
-    XMarkIcon,
     BarsIcon,
-    UserPlusIcon,
     LockClosedIcon,
-    UserIcon,
     LogoutIcon,
+    UserIcon,
+    UserPlusIcon,
+    XMarkIcon,
   },
   computed: {
     hideOrShow() {
@@ -116,7 +118,7 @@ export default {
         cb: () => {
           env.navbars.rightSideNavbar = false;
           user.logout();
-        }
+        },
       },
       {
         name: "Знаменитости",
@@ -124,8 +126,8 @@ export default {
         cb: () => {
           env.navbars.rightSideNavbar = false;
           celebrity.dialogs.all = true;
-        }
-      }
+        },
+      },
     ];
     return { env, user, navbarItemsLoggedOut, navbarItemsLoggedIn };
   },

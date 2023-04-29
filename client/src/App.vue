@@ -13,26 +13,26 @@
 </template>
 
 <script>
+// stores
 import { useEnvStore } from "./stores/env";
 import { useCelebrityStore } from "./stores/celebrity";
-import CelebrityForm from "./components/CelebrityForm.vue";
-import DisplayCelebrity from "./components/DisplayCelebrity.vue";
-import BottomNavbar from "./components/BottomNavbar.vue";
-import RightSideNavbar from "./components/navbar/RightSideNavbar.vue";
-import RegisterView from "./components/authentication/RegisterView.vue";
-import LoginView from "./components/authentication/LoginView.vue";
-import CelebrityDisplayItems from "./components/celebrities/DisplayItems.vue";
+
+// components
+import { RightSideNavbar } from "./components/navbar";
+import { RegisterView, LoginView } from "./components/authentication";
+import { CelebrityDisplayItems } from "./components/celebrities";
+import { DisplayCelebrity, BottomNavbar, CelebrityForm } from "./components/the-quiz";
 
 export default {
   name: "App",
   components: {
-    CelebrityForm,
-    DisplayCelebrity,
-    BottomNavbar,
-    RegisterView,
     RightSideNavbar,
+    RegisterView,
     LoginView,
     CelebrityDisplayItems,
+    DisplayCelebrity,
+    BottomNavbar,
+    CelebrityForm,
   },
   setup() {
     const env = useEnvStore();

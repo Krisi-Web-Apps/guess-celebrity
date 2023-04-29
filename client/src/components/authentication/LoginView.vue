@@ -46,18 +46,25 @@
 </template>
 
 <script>
+//stores
 import { useEnvStore } from "../../stores/env";
 import { useUserStore } from "../../stores/user";
-import LockClosedIcon from "../../icons/LockClosedIcon.vue";
-import EnvelopeIcon from "../../icons/EnvelopeIcon.vue";
-import MediumDialog from "../dialogs/MediumDialog.vue";
+
+// icons
+import { EnvelopeIcon, LockClosedIcon } from "../../icons";
+
+// dialogs
+import { MediumDialog } from "../dialogs";
 
 export default {
   name: "LoginView",
   components: {
+    // dialogs
     MediumDialog,
-    LockClosedIcon,
+
+    // icons
     EnvelopeIcon,
+    LockClosedIcon,
   },
   setup() {
     const env = useEnvStore();

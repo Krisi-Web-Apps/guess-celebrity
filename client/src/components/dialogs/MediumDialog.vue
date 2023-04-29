@@ -15,12 +15,16 @@
 </template>
 
 <script>
-import XMarkIcon from "../../icons/XMarkIcon.vue";
+// stores
 import { useEnvStore } from "../../stores/env";
+
+// icons
+import { XMarkIcon } from "../../icons";
 
 export default {
   name: "MediumDialog",
   components: {
+    // icons
     XMarkIcon,
   },
   setup() {
