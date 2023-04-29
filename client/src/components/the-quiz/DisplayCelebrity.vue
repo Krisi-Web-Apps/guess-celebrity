@@ -1,8 +1,8 @@
 <template>
-  <div class="flex justify-center">
+  <div class="flex justify-center" v-if="theQuiz.item">
     <div class="w-[300px] h-[300px] rounded-full overflow-hidden">
       <img
-        src="https://cdn.britannica.com/11/222411-050-D3D66895/American-politician-actor-athlete-Arnold-Schwarzenegger-2016.jpg"
+        :src="theQuiz.item.image_url"
         class="w-full h-auto"
       />
     </div>
@@ -10,8 +10,16 @@
 </template>
 
 <script>
+// stores
+import { useTheQuizStore } from "../../stores/celebrity";
+
 export default {
   name: "DisplayCelebrity",
+  setup() {
+    const theQuiz = useTheQuizStore();
+    theQuiz.getItems();
+    return { theQuiz }
+  }
 };
 </script>
 
