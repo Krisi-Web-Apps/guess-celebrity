@@ -3,11 +3,15 @@
     class="bg-cover w-full h-screen"
     :style="{ 'background-image': 'url(' + env.currentBackground + ')' }"
   >
-    <the-quiz-view v-if="env.dialogs.theQuizView" />
+    <transition name="bounce">
+      <the-quiz-view v-if="env.dialogs.theQuizView" />
+    </transition>
     <right-side-navbar />
     <register-view />
     <login-view />
-    <celebrity-display-items v-if="celebrity.dialogs.all" />
+    <transition name="bounce">
+      <celebrity-display-items v-if="celebrity.dialogs.all" />
+    </transition>
   </div>
 </template>
 

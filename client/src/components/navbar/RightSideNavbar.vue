@@ -1,14 +1,14 @@
 <template>
   <div class="fixed right-0 top-0">
     <bars-icon
-      class="fixed top-2 right-2 cursor-pointer"
+      class="fixed top-2 right-2 w-[60px] h-[60px] p-4 text-white bg-black rounded-full cursor-pointer hover:bg-white hover:text-black transition-all"
       @click="
         () => (env.navbars.rightSideNavbar = !env.navbars.rightSideNavbar)
       "
       v-if="!env.navbars.rightSideNavbar"
     />
     <div
-      class="w-[300px] h-screen bg-white shadow-md border border-gray-300"
+      class="w-[300px] h-screen bg-white shadow-md border border-gray-300 transition-all"
       :class="hideOrShow"
     >
       <h4 class="text-xl mt-2 ml-5 mb-5">Навигация</h4>
@@ -158,7 +158,13 @@ export default {
         },
       },
     ];
-    return { env, user, navbarItemsLoggedOut, navbarItemsLoggedIn, navbarItems };
+    return {
+      env,
+      user,
+      navbarItemsLoggedOut,
+      navbarItemsLoggedIn,
+      navbarItems,
+    };
   },
 };
 </script>
