@@ -5,9 +5,7 @@
         <h2 class="text-2xl text-center">
           Знаменитости ({{ celebrity.items.length }})
         </h2>
-        <button @click="openCelebrityForm" class="primary-btn">
-          Добави Нова
-        </button>
+        <base-button label="Добави Нова" @click="handleOpenCelebrityForm" />
       </div>
       <ul class="mt-5 max-h-[60vh] overflow-y-scroll">
         <li
@@ -42,11 +40,17 @@ import { useEnvStore } from "../../stores/env";
 // dialogs
 import { CustomDialog } from "../dialogs";
 
+// buttons
+import { BaseButton } from "../buttons";
+
 export default {
   name: "DisplayItems",
   components: {
     // dialogs
     CustomDialog,
+
+    // buttons
+    BaseButton,
   },
   setup() {
     const env = useEnvStore();
@@ -56,14 +60,14 @@ export default {
     const handleClose = () => {
       env.dialogs.celebrityList = false;
       env.navbars.rightSideNavbar = true;
-    }
+    };
 
-    const openCelebrityForm = () => {
+    const handleOpenCelebrityForm = () => {
       env.dialogs.celebrityForm = true;
       env.dialogs.celebrityList = false;
-    }
+    };
 
-    return { env, celebrity, handleClose, openCelebrityForm };
+    return { env, celebrity, handleClose, handleOpenCelebrityForm };
   },
 };
 </script>

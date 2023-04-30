@@ -34,11 +34,7 @@
             icon="lock-closed-icon"
             v-model:title="user.credentials.c_password"
           />
-          <div>
-            <button type="submit" class="primary-btn">
-              Регистриране на нов потребител
-            </button>
-          </div>
+          <base-button type="submit" label="Регистриране на нов потребител" />
         </form>
       </div>
     </custom-dialog>
@@ -56,6 +52,9 @@ import { CustomDialog } from "../dialogs";
 // inputs
 import { BaseInput } from "../inputs";
 
+// buttons
+import { BaseButton } from "../buttons";
+
 export default {
   name: "RegisterView",
   components: {
@@ -64,6 +63,9 @@ export default {
 
     // inputs
     BaseInput,
+
+    // buttons
+    BaseButton,
   },
   setup() {
     const env = useEnvStore();

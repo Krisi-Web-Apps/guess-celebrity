@@ -10,16 +10,14 @@
           {{ user.alertMessages.error }}
         </p>
         <form @submit.prevent="user.login">
-          <div class="flex flex-col mb-5">
-            <base-input
-              type="email"
-              id="email"
-              label="Имейл адрес"
-              icon="envelope-icon"
-              placeholder="Въведете имейм адреса си..."
-              v-model:title="user.credentials.email"
-            />
-          </div>
+          <base-input
+            type="email"
+            id="email"
+            label="Имейл адрес"
+            icon="envelope-icon"
+            placeholder="Въведете имейм адреса си..."
+            v-model:title="user.credentials.email"
+          />
           <base-input
             type="password"
             id="password"
@@ -28,9 +26,7 @@
             placeholder="Въведете паролата си..."
             v-model:title="user.credentials.password"
           />
-          <div>
-            <button type="submit" class="primary-btn">Вход в профила</button>
-          </div>
+          <base-button type="submit" label="Вход в профила" />
         </form>
       </div>
     </custom-dialog>
@@ -48,6 +44,9 @@ import { CustomDialog } from "../dialogs";
 // inputs
 import { BaseInput } from "../inputs";
 
+// buttons
+import { BaseButton } from "../buttons";
+
 export default {
   name: "LoginView",
   components: {
@@ -56,6 +55,9 @@ export default {
 
     // inputs
     BaseInput,
+
+    // buttons
+    BaseButton,
   },
   setup() {
     const env = useEnvStore();
