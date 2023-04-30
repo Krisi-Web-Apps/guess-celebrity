@@ -98,11 +98,13 @@ import {
   XMarkIcon,
   PlayIcon,
   CelebrityIcon,
+  UsersIcon,
 } from "../../icons";
 
 export default {
   name: "RightSideNavbar",
   components: {
+    // icons
     BarsIcon,
     LockClosedIcon,
     LogoutIcon,
@@ -111,6 +113,7 @@ export default {
     XMarkIcon,
     PlayIcon,
     CelebrityIcon,
+    UsersIcon,
   },
   computed: {
     hideOrShow() {
@@ -162,6 +165,15 @@ export default {
           cb: () => {
             env.navbars.rightSideNavbar = false;
             env.dialogs.celebrityList = true;
+          },
+        },
+        {
+          name: "Потребители",
+          icon: "users-icon",
+          key: "usersView",
+          cb: () => {
+            env.navbars.rightSideNavbar = false;
+            env.dialogs.usersView = true;
           },
         },
       ],

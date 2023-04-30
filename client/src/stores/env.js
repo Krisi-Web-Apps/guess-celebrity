@@ -17,6 +17,7 @@ export const useEnvStore = defineStore("env", {
             theQuizView: false,
             celebrityForm: false,
             celebrityList: false,
+            usersView: false,
         }
     }),
     actions: {

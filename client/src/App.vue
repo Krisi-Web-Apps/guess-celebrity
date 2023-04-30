@@ -9,6 +9,9 @@
     <right-side-navbar />
     <register-view />
     <login-view />
+    <transition>
+      <users-view v-if="env.dialogs.usersView" />
+    </transition>
     <transition-group>
       <celebrity-display-items v-if="env.dialogs.celebrityList" />
       <celebrity-form v-if="env.dialogs.celebrityForm" />
@@ -24,25 +27,28 @@ import { useUserStore } from "./stores/user";
 // components
 import { RightSideNavbar } from "./components/navbar";
 import { RegisterView, LoginView } from "./components/authentication";
+import { UsersView } from "./components/users";
 import { CelebrityDisplayItems, CelebrityForm } from "./components/celebrities";
 import { TheQuizView } from "./components/the-quiz";
 
 export default {
   name: "App",
   components: {
+    // components
     RightSideNavbar,
     RegisterView,
     LoginView,
+    UsersView,
     CelebrityDisplayItems,
     CelebrityForm,
     TheQuizView,
-},
+  },
   setup() {
     const env = useEnvStore();
     const user = useUserStore();
 
     const token = localStorage.getItem("token");
-    
+
     if (token) {
       user.afterLogin(token);
       user.getUser();

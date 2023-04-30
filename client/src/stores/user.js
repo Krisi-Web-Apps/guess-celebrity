@@ -14,6 +14,7 @@ export const useUserStore = defineStore("user", {
             register: "/users/register",
             login: "/users/login",
             user: "/users",
+            users: "/stats/users"
         },
         credentials: {
             email: "",
@@ -97,6 +98,22 @@ export const useUserStore = defineStore("user", {
                 .catch((err) => {
                     this.alertMessages.error = err.message;
                     this.logout();
+                })
+                .finally(() => this.loading = false);
+        },
+        getItems(cb) {
+            this.loading = true;
+            api.get(this.urls.users)
+                .then(res => {
+                    if (typeof res.data.data === "object") {
+                        this.items = res.data.data;
+                        return;
+                    }
+
+                    cb("error", res.data.message);
+                })
+                .catch(err => {
+                    cb("error", err.message);
                 })
                 .finally(() => this.loading = false);
         }
