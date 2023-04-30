@@ -61,7 +61,7 @@
         @click="() => item.cb()"
       >
         <div
-          v-if="env.dialogs[item.key] === false"
+          v-if="env.dialogs[item.key] === false || !item.key"
           class="py-2 px-5 hover:bg-gray-100 cursor-pointer"
         >
           <div class="flex">
@@ -144,7 +144,6 @@ export default {
       {
         name: "Изход",
         icon: "logout-icon",
-        key: null,
         cb: () => {
           env.navbars.rightSideNavbar = false;
           user.logout();

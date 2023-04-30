@@ -10,46 +10,30 @@
           {{ user.alertMessages.error }}
         </p>
         <form @submit.prevent="user.register">
-          <div class="flex flex-col mb-5">
-            <label for="email">Имейл адрес</label>
-            <div class="flex items-center border border-gray-300 rounded mt-1">
-              <envelope-icon class="mx-2" />
-              <input
-                type="email"
-                id="email"
-                v-model="user.credentials.email"
-                placeholder="Въведете имейм адреса си..."
-                class="w-full py-2 rounded outline-none focus:pl-2 transition-all"
-                autofocus
-              />
-            </div>
-          </div>
-          <div class="flex flex-col mb-5">
-            <label for="password">Парола</label>
-            <div class="flex items-center border border-gray-300 rounded mt-1">
-              <lock-closed-icon class="mx-2" />
-              <input
-                type="password"
-                id="password"
-                v-model="user.credentials.password"
-                placeholder="Въведете паролата си..."
-                class="w-full py-2 pr-4 outline-none focus:pl-2 transition-all"
-              />
-            </div>
-          </div>
-          <div class="flex flex-col mb-5">
-            <label for="password">Потвърдете Паролата</label>
-            <div class="flex items-center border border-gray-300 rounded mt-1">
-              <lock-closed-icon class="mx-2" />
-              <input
-                type="password"
-                id="c_password"
-                v-model="user.credentials.c_password"
-                placeholder="Въведете паролата си..."
-                class="w-full py-2 pr-4 outline-none focus:pl-2 transition-all"
-              />
-            </div>
-          </div>
+          <base-input
+            type="email"
+            id="email"
+            label="Повторете Имейл"
+            placeholder="Въведете имейл..."
+            icon="envelope-icon"
+            v-model:title="user.credentials.email"
+          />
+          <base-input
+            type="password"
+            id="password"
+            label="Повторете Парола"
+            placeholder="Въведете парола..."
+            icon="lock-closed-icon"
+            v-model:title="user.credentials.password"
+          />
+          <base-input
+            type="password"
+            id="c_password"
+            label="Повторете Парола"
+            placeholder="Повторете паролата..."
+            icon="lock-closed-icon"
+            v-model:title="user.credentials.c_password"
+          />
           <div>
             <button type="submit" class="primary-btn">
               Регистриране на нов потребител
@@ -69,8 +53,8 @@ import { useUserStore } from "../../stores/user";
 // dialogs
 import { CustomDialog } from "../dialogs";
 
-// icons
-import { EnvelopeIcon, LockClosedIcon } from "../../icons";
+// inputs
+import { BaseInput } from "../inputs";
 
 export default {
   name: "RegisterView",
@@ -78,9 +62,8 @@ export default {
     // dialogs
     CustomDialog,
 
-    // icons
-    EnvelopeIcon,
-    LockClosedIcon,
+    // inputs
+    BaseInput,
   },
   setup() {
     const env = useEnvStore();

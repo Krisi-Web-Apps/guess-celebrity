@@ -2,6 +2,9 @@
   <custom-dialog @close="handleClose">
     <div class="p-5">
         <h2 class="text-2xl text-center">Създаване на нова знаменитост</h2>
+        <form>
+          
+        </form>
     </div>
   </custom-dialog>
 </template>
