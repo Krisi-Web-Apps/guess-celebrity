@@ -1,7 +1,13 @@
 <template>
   <custom-dialog @close="functions.handleClose">
     <div class="p-5">
-      <h2 class="text-2xl text-center">Създаване на нова знаменитост</h2>
+      <h2 class="text-2xl text-center">
+        {{
+          !celebrity.item.id
+            ? "Създаване на нова знаменитост"
+            : "Редактиране на знаменитост"
+        }}
+      </h2>
       <form @submit.prevent="celebrity.saveItem">
         <base-input
           type="text"

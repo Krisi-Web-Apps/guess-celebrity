@@ -17,7 +17,12 @@
 
 <script>
 // icons
-import { EnvelopeIcon, LockClosedIcon, CelebrityIcon, PhotoIcon } from "../../icons";
+import {
+  EnvelopeIcon,
+  LockClosedIcon,
+  CelebrityIcon,
+  PhotoIcon,
+} from "../../icons";
 
 export default {
   name: "BaseInput",
@@ -47,10 +52,7 @@ export default {
       default: "Въведете имейм адреса си...",
       required: false,
     },
-    title: {
-      type: String,
-      required: true,
-    },
+    title: {},
   },
   emits: ["update:title"],
   components: {
@@ -61,8 +63,8 @@ export default {
     PhotoIcon,
   },
   setup(props) {
-    return { props }
-  }
+    return { props };
+  },
 };
 </script>
 

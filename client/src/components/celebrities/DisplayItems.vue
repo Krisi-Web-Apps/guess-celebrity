@@ -7,14 +7,18 @@
         </h2>
         <base-button
           label="Добави Нова"
-          @click="functions.handleOpenCelebrityForm"
+          @click="() => functions.handleOpenCelebrityForm({ new: true })"
         />
       </div>
       <ul class="mt-5 max-h-[60vh] overflow-y-scroll">
         <li
           v-for="(item, index) in celebrity.items"
           :key="index"
-          class="w-full py-2 px-2 border rounded mb-1 hover:bg-gray-200"
+          :title="`Актуализиране на (${item.famous_name})`"
+          class="w-full py-2 px-2 border rounded mb-1 cursor-pointer hover:bg-gray-200"
+          @click="
+            () => functions.handleOpenCelebrityForm({ new: false, id: item.id })
+          "
         >
           <div class="flex items-center">
             <div class="w-12 rounded shadow overflow-hidden">
@@ -65,9 +69,15 @@ export default {
         env.dialogs.celebrityList = false;
         env.navbars.rightSideNavbar = true;
       },
-      handleOpenCelebrityForm: () => {
+      handleOpenCelebrityForm: (params) => {
         env.dialogs.celebrityForm = true;
         env.dialogs.celebrityList = false;
+        if (params.new) {
+          celebrity.item = {};
+        } else {
+          celebrity.item.id = params.id;
+          celebrity.getItem();
+        }
       },
     };
 

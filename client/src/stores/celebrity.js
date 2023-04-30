@@ -10,13 +10,21 @@ export const useCelebrityStore = defineStore("celebrity", {
     state: () => ({
         loading: false,
         url: "/celebrities",
-        item: {
-            famous_name: "",
-            image_url: "",
-        },
+        item: {},
         items: []
     }),
     actions: {
+        getItem() {
+            this.loading = true;
+            api.get(`${this.url}/${this.item.id}`)
+                .then(res => {
+                    if (typeof res.data.data === "object") {
+                        this.item = res.data.data[0];
+                    }
+                })
+                .catch(err => console.log(err))
+                .finally(() => this.loading = false);
+        },
         getItems() {
             this.loading = true;
             api.get(this.url)
