@@ -17,7 +17,7 @@
 
 <script>
 // icons
-import { EnvelopeIcon, LockClosedIcon } from "../../icons";
+import { EnvelopeIcon, LockClosedIcon, CelebrityIcon, PhotoIcon } from "../../icons";
 
 export default {
   name: "BaseInput",
@@ -57,6 +57,8 @@ export default {
     // icons
     EnvelopeIcon,
     LockClosedIcon,
+    CelebrityIcon,
+    PhotoIcon,
   },
   setup(props) {
     return { props }

@@ -2,7 +2,25 @@
   <custom-dialog @close="functions.handleClose">
     <div class="p-5">
       <h2 class="text-2xl text-center">Създаване на нова знаменитост</h2>
-      <form></form>
+      <form @submit.prevent="celebrity.saveItem">
+        <base-input
+          type="text"
+          id="famous_name"
+          label="Име"
+          icon="celebrity-icon"
+          placeholder="Въведете името или псевдонима..."
+          v-model:title="celebrity.item.famous_name"
+        />
+        <base-input
+          type="text"
+          id="image_url"
+          label="Адрес на Снимка"
+          icon="photo-icon"
+          placeholder="Въведете адрес на снимка..."
+          v-model:title="celebrity.item.image_url"
+        />
+        <base-button type="submit" label="Запазване на знаменитост" />
+      </form>
     </div>
   </custom-dialog>
 </template>
@@ -10,18 +28,32 @@
 <script>
 // stores
 import { useEnvStore } from "../../stores/env";
+import { useCelebrityStore } from "../../stores/celebrity";
 
 // dialogs
 import { CustomDialog } from "../dialogs";
+
+// inputs
+import { BaseInput } from "../inputs";
+
+// buttons
+import { BaseButton } from "../buttons";
 
 export default {
   name: "CelebrityForm",
   components: {
     // dialogs
     CustomDialog,
+
+    // inputs
+    BaseInput,
+
+    // buttons
+    BaseButton,
   },
   setup() {
     const env = useEnvStore();
+    const celebrity = useCelebrityStore();
 
     const functions = {
       handleClose: () => {
@@ -30,7 +62,7 @@ export default {
       },
     };
 
-    return { env, functions };
+    return { env, celebrity, functions };
   },
 };
 </script>

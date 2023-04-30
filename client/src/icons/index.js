@@ -8,3 +8,4 @@ export { default as XMarkIcon } from "./XMarkIcon.vue";
 export { default as RestartIcon } from "./RestartIcon.vue";
 export { default as PlayIcon } from "./PlayIcon.vue";
 export { default as CelebrityIcon } from "./CelebrityIcon.vue";
+export { default as PhotoIcon } from "./PhotoIcon.vue";

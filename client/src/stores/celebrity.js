@@ -9,16 +9,17 @@ import { shuffle } from "../utils";
 export const useCelebrityStore = defineStore("celebrity", {
     state: () => ({
         loading: false,
-        urls: {
-            get: "/celebrities"
+        url: "/celebrities",
+        item: {
+            famous_name: "",
+            image_url: "",
         },
-        item: {},
         items: []
     }),
     actions: {
         getItems() {
             this.loading = true;
-            api.get(this.urls.get)
+            api.get(this.url)
                 .then(res => {
                     if (res.status === 200) {
                         this.items = res.data.data;
@@ -26,6 +27,23 @@ export const useCelebrityStore = defineStore("celebrity", {
                 })
                 .catch(err => console.log(err))
                 .finally(() => this.loading = false);
+        },
+        saveItem() {
+            this.loading = true;
+            api.post(this.url, this.item)
+                .then(res => {
+                    if (typeof res.data.data === "number") {
+                        this.item.id = res.data.data;
+                    }
+                    this.afterSaving();
+                })
+                .catch(err => console.log(err))
+                .finally(() => this.loading = false);
+        },
+        afterSaving() {
+            const env = useEnvStore();
+            env.dialogs.celebrityForm = false;
+            env.dialogs.celebrityList = true;
         }
     }
 });
