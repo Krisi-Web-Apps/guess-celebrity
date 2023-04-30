@@ -15,11 +15,22 @@
           v-for="(item, index) in celebrity.items"
           :key="index"
           :title="`Актуализиране на (${item.famous_name})`"
-          class="w-full py-2 px-2 border rounded mb-1 cursor-pointer hover:bg-gray-200"
-          @click="
-            () => functions.handleOpenCelebrityForm({ new: false, id: item.id })
-          "
+          class="relative w-full py-2 px-2 border rounded mb-1 hover:bg-gray-200"
         >
+          <ellipsis-vertical-icon
+            class="absolute top1 right-1 cursor-pointer hover:text-gray-500"
+            title="Опции"
+            @click="
+              () => {
+                isOpenOptionsId =
+                  typeof isOpenOptionsId !== 'number' ? item.id : null;
+              }
+            "
+          />
+          <options-dialog
+            :options="options"
+            v-if="isOpenOptionsId === item.id"
+          />
           <div class="flex items-center">
             <div class="w-12 rounded shadow overflow-hidden">
               <img
@@ -40,12 +51,17 @@
 </template>
 
 <script>
+import { ref } from "vue";
+
 //stores
 import { useCelebrityStore } from "../../stores/celebrity";
 import { useEnvStore } from "../../stores/env";
 
 // dialogs
-import { CustomDialog } from "../dialogs";
+import { CustomDialog, OptionsDialog } from "../dialogs";
+
+// icons
+import { XMarkIcon, EllipsisVerticalIcon } from "../../icons";
 
 // buttons
 import { BaseButton } from "../buttons";
@@ -55,6 +71,11 @@ export default {
   components: {
     // dialogs
     CustomDialog,
+    OptionsDialog,
+
+    // icons
+    XMarkIcon,
+    EllipsisVerticalIcon,
 
     // buttons
     BaseButton,
@@ -62,7 +83,37 @@ export default {
   setup() {
     const env = useEnvStore();
     const celebrity = useCelebrityStore();
+
     celebrity.getItems();
+
+    const data = {
+      isOpenOptionsId: ref(),
+      options: [
+        {
+          label: "Редактиране",
+          classNames: "bg-white text-black hover:bg-gray-200",
+          cb: () => {
+            functions.handleOpenCelebrityForm({
+              new: false,
+              id: data.isOpenOptionsId.value,
+            });
+          },
+        },
+        {
+          label: "Изтриване",
+          classNames: "text-red hover:text-white hover:bg-red-500",
+          cb: () => {
+            if (confirm("Сигурен ли сте, че искате да изтриете този запис от базата данни?")) {
+              celebrity.item.id = data.isOpenOptionsId.value;
+              const cb = () => {
+                isOpenOptionsId.value = null;
+              }
+              celebrity.deleteItem(cb);
+            }
+          },
+        },
+      ],
+    };
 
     const functions = {
       handleClose: () => {
@@ -81,7 +132,7 @@ export default {
       },
     };
 
-    return { env, celebrity, functions };
+    return { env, celebrity, ...data, functions };
   },
 };
 </script>

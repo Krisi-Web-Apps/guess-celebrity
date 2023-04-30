@@ -9,3 +9,4 @@ export { default as RestartIcon } from "./RestartIcon.vue";
 export { default as PlayIcon } from "./PlayIcon.vue";
 export { default as CelebrityIcon } from "./CelebrityIcon.vue";
 export { default as PhotoIcon } from "./PhotoIcon.vue";
+export { default as EllipsisVerticalIcon } from "./EllipsisVerticalIcon.vue";

@@ -52,6 +52,18 @@ export const useCelebrityStore = defineStore("celebrity", {
             const env = useEnvStore();
             env.dialogs.celebrityForm = false;
             env.dialogs.celebrityList = true;
+        },
+        deleteItem() {
+            this.loading = true;
+            api.delete(`${this.url}/${this.item.id}`)
+                .then(res => {
+                    if (res.status === 200) {
+                        this.item = {};
+                        this.getItems();
+                    }
+                })
+                .catch(err => console.log(err))
+                .finally(() => this.loading = false);
         }
     }
 });
