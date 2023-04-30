@@ -1,11 +1,14 @@
 <template>
-  <custom-dialog @close="handleClose">
+  <custom-dialog @close="functions.handleClose">
     <div class="p-5 mt-5" v-if="!celebrity.loading">
       <div class="flex justify-between items-center">
         <h2 class="text-2xl text-center">
           Знаменитости ({{ celebrity.items.length }})
         </h2>
-        <base-button label="Добави Нова" @click="handleOpenCelebrityForm" />
+        <base-button
+          label="Добави Нова"
+          @click="functions.handleOpenCelebrityForm"
+        />
       </div>
       <ul class="mt-5 max-h-[60vh] overflow-y-scroll">
         <li
@@ -57,17 +60,18 @@ export default {
     const celebrity = useCelebrityStore();
     celebrity.getItems();
 
-    const handleClose = () => {
-      env.dialogs.celebrityList = false;
-      env.navbars.rightSideNavbar = true;
+    const functions = {
+      handleClose: () => {
+        env.dialogs.celebrityList = false;
+        env.navbars.rightSideNavbar = true;
+      },
+      handleOpenCelebrityForm: () => {
+        env.dialogs.celebrityForm = true;
+        env.dialogs.celebrityList = false;
+      },
     };
 
-    const handleOpenCelebrityForm = () => {
-      env.dialogs.celebrityForm = true;
-      env.dialogs.celebrityList = false;
-    };
-
-    return { env, celebrity, handleClose, handleOpenCelebrityForm };
+    return { env, celebrity, functions };
   },
 };
 </script>

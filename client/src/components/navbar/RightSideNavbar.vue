@@ -1,7 +1,7 @@
 <template>
   <bars-icon
     class="fixed top-2 right-2 w-[60px] h-[60px] p-4 text-white bg-primary rounded-full cursor-pointer hover:bg-white hover:text-primary transition-all"
-    @click="openNavbar"
+    @click="functions.openNavbar"
     v-if="!env.navbars.rightSideNavbar"
   />
   <div
@@ -12,7 +12,7 @@
     <!-- starts items -->
     <ul>
       <li
-        v-for="(item, index) in navbarItems"
+        v-for="(item, index) in data.navbarItems"
         :key="index"
         @click="() => item.cb()"
       >
@@ -31,7 +31,7 @@
     <!-- starts logged in items -->
     <ul v-if="!user.isLoggedIn">
       <li
-        v-for="(item, index) in navbarItemsLoggedOut"
+        v-for="(item, index) in data.navbarItemsLoggedOut"
         :key="index"
         @click="() => item.cb()"
       >
@@ -56,7 +56,7 @@
         </div>
       </li>
       <li
-        v-for="(item, index) in navbarItemsLoggedIn"
+        v-for="(item, index) in data.navbarItemsLoggedIn"
         :key="index"
         @click="() => item.cb()"
       >
@@ -118,71 +118,69 @@ export default {
   setup() {
     const env = useEnvStore();
     const user = useUserStore();
-    const navbarItemsLoggedOut = [
-      {
-        name: "Регистрация",
-        icon: "user-plus-icon",
-        key: "register",
-        cb: () => {
-          env.navbars.rightSideNavbar = false;
-          env.dialogs.register = true;
-          env.dialogs.login = false;
-        },
-      },
-      {
-        name: "Вход",
-        icon: "lock-closed-icon",
-        key: "login",
-        cb: () => {
-          env.navbars.rightSideNavbar = false;
-          env.dialogs.login = true;
-          env.dialogs.register = false;
-        },
-      },
-    ];
-    const navbarItemsLoggedIn = [
-      {
-        name: "Изход",
-        icon: "logout-icon",
-        cb: () => {
-          env.navbars.rightSideNavbar = false;
-          user.logout();
-        },
-      },
-      {
-        name: "Знаменитости",
-        icon: "celebrity-icon",
-        key: "celebrityList",
-        cb: () => {
-          env.navbars.rightSideNavbar = false;
-          env.dialogs.celebrityList = true;
-        },
-      },
-    ];
-    const navbarItems = [
-      {
-        name: "Играй",
-        icon: "play-icon",
-        key: "theQuizView",
-        cb: () => {
-          env.dialogs.theQuizView = true;
-          env.navbars.rightSideNavbar = false;
-        },
-      },
-    ];
 
-    const openNavbar = () => {
-      env.navbars.rightSideNavbar = true;
+    const data = {
+      navbarItemsLoggedOut: [
+        {
+          name: "Регистрация",
+          icon: "user-plus-icon",
+          key: "register",
+          cb: () => {
+            env.navbars.rightSideNavbar = false;
+            env.dialogs.register = true;
+            env.dialogs.login = false;
+          },
+        },
+        {
+          name: "Вход",
+          icon: "lock-closed-icon",
+          key: "login",
+          cb: () => {
+            env.navbars.rightSideNavbar = false;
+            env.dialogs.login = true;
+            env.dialogs.register = false;
+          },
+        },
+      ],
+      navbarItemsLoggedIn: [
+        {
+          name: "Изход",
+          icon: "logout-icon",
+          cb: () => {
+            env.navbars.rightSideNavbar = false;
+            user.logout();
+          },
+        },
+        {
+          name: "Знаменитости",
+          icon: "celebrity-icon",
+          key: "celebrityList",
+          cb: () => {
+            env.navbars.rightSideNavbar = false;
+            env.dialogs.celebrityList = true;
+          },
+        },
+      ],
+      navbarItems: [
+        {
+          name: "Играй",
+          icon: "play-icon",
+          key: "theQuizView",
+          cb: () => {
+            env.dialogs.theQuizView = true;
+            env.navbars.rightSideNavbar = false;
+          },
+        },
+      ],
     };
 
-    return {
-      env,
-      user,
-      navbarItemsLoggedOut,
-      navbarItemsLoggedIn,
-      navbarItems,
-      openNavbar,
+    const functions = {
+      openNavbar: () => {
+        env.navbars.rightSideNavbar = true;
+      },
     };
+
+    return { env, user, data, functions };
   },
 };
 </script>

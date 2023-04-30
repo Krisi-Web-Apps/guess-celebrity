@@ -1,6 +1,6 @@
 <template>
   <transition>
-    <custom-dialog v-if="env.dialogs.register" @close="handleClose">
+    <custom-dialog v-if="env.dialogs.register" @close="functions.handleClose">
       <div class="w-full p-5">
         <h1 class="text-xl text-center">Регистриране на нов потребител</h1>
         <p
@@ -73,12 +73,14 @@ export default {
 
     user.alertMessages.error = "";
 
-    const handleClose = () => {
-      env.dialogs.register = false;
-      env.navbars.rightSideNavbar = true;
+    const functions = {
+      handleClose: () => {
+        env.dialogs.register = false;
+        env.navbars.rightSideNavbar = true;
+      },
     };
 
-    return { env, user, handleClose };
+    return { env, user, functions };
   },
 };
 </script>

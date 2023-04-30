@@ -1,10 +1,8 @@
 <template>
-  <custom-dialog @close="handleClose">
+  <custom-dialog @close="functions.handleClose">
     <div class="p-5">
-        <h2 class="text-2xl text-center">Създаване на нова знаменитост</h2>
-        <form>
-          
-        </form>
+      <h2 class="text-2xl text-center">Създаване на нова знаменитост</h2>
+      <form></form>
     </div>
   </custom-dialog>
 </template>
@@ -25,12 +23,14 @@ export default {
   setup() {
     const env = useEnvStore();
 
-    const handleClose = () => {
+    const functions = {
+      handleClose: () => {
         env.dialogs.celebrityForm = false;
         env.dialogs.celebrityList = true;
-    }
+      },
+    };
 
-    return { env, handleClose };
+    return { env, functions };
   },
 };
 </script>

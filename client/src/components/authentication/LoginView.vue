@@ -1,6 +1,6 @@
 <template>
   <transition>
-    <custom-dialog v-if="env.dialogs.login" @close="handleClose">
+    <custom-dialog v-if="env.dialogs.login" @close="functions.handleClose">
       <div class="w-full h-full p-5">
         <h1 class="text-xl text-center">Влезте в профила си</h1>
         <p
@@ -65,12 +65,14 @@ export default {
 
     user.alertMessages.error = "";
 
-    const handleClose = () => {
-      env.dialogs.login = false;
-      env.navbars.rightSideNavbar = true;
+    const functions = {
+      handleClose: () => {
+        env.dialogs.login = false;
+        env.navbars.rightSideNavbar = true;
+      },
     };
 
-    return { env, user, handleClose };
+    return { env, user, functions };
   },
 };
 </script>
