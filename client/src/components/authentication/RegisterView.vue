@@ -9,7 +9,7 @@
         >
           {{ user.alertMessages.error }}
         </p>
-        <form @submit.prevent="user.register">
+        <form @submit.prevent="functions.handleSubmit">
           <base-input
             type="email"
             id="email"
@@ -42,6 +42,8 @@
 </template>
 
 <script>
+import { useToast } from "vue-toast-notification";
+
 // stores
 import { useEnvStore } from "../../stores/env";
 import { useUserStore } from "../../stores/user";
@@ -70,6 +72,7 @@ export default {
   setup() {
     const env = useEnvStore();
     const user = useUserStore();
+    const toast = useToast();
 
     user.alertMessages.error = "";
 
@@ -77,6 +80,13 @@ export default {
       handleClose: () => {
         env.dialogs.register = false;
         env.navbars.rightSideNavbar = true;
+      },
+      showNotification: (status, message) => {
+        if (status === "success") toast.success(message);
+        if (status === "error") toast.error(message);
+      },
+      handleSubmit: () => {
+        user.register(functions.showNotification);
       },
     };
 

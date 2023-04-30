@@ -52,6 +52,7 @@
 
 <script>
 import { ref } from "vue";
+import { useToast } from "vue-toast-notification";
 
 //stores
 import { useCelebrityStore } from "../../stores/celebrity";
@@ -83,6 +84,7 @@ export default {
   setup() {
     const env = useEnvStore();
     const celebrity = useCelebrityStore();
+    const toast = useToast();
 
     celebrity.getItems();
 
@@ -105,9 +107,13 @@ export default {
           cb: () => {
             if (confirm("Сигурен ли сте, че искате да изтриете този запис от базата данни?")) {
               celebrity.item.id = data.isOpenOptionsId.value;
-              const cb = () => {
-                isOpenOptionsId.value = null;
+
+              const cb = (status, message) => {
+                data.isOpenOptionsId.value = null;
+                if (status === "success") toast.success(message);
+                if (status === "error") toast.error(message);
               }
+
               celebrity.deleteItem(cb);
             }
           },

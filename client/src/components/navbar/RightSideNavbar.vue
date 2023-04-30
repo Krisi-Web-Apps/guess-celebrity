@@ -82,6 +82,8 @@
 </template>
 
 <script>
+import { useToast } from "vue-toast-notification";
+
 // stores
 import { useEnvStore } from "../../stores/env";
 import { useUserStore } from "../../stores/user";
@@ -118,6 +120,7 @@ export default {
   setup() {
     const env = useEnvStore();
     const user = useUserStore();
+    const toast = useToast();
 
     const data = {
       navbarItemsLoggedOut: [
@@ -149,6 +152,7 @@ export default {
           cb: () => {
             env.navbars.rightSideNavbar = false;
             user.logout();
+            toast.success("Успешно излизане от профила.");
           },
         },
         {

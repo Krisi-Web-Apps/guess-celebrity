@@ -36,7 +36,7 @@ export const useCelebrityStore = defineStore("celebrity", {
                 .catch(err => console.log(err))
                 .finally(() => this.loading = false);
         },
-        saveItem() {
+        saveItem(cb) {
             this.loading = true;
             api.post(this.url, this.item)
                 .then(res => {
@@ -44,8 +44,11 @@ export const useCelebrityStore = defineStore("celebrity", {
                         this.item.id = res.data.data;
                     }
                     this.afterSaving();
+                    cb("success", "Успешно запазена знаменитост.");
                 })
-                .catch(err => console.log(err))
+                .catch(err => {
+                    cb("error", err.message);
+                })
                 .finally(() => this.loading = false);
         },
         afterSaving() {
@@ -53,16 +56,22 @@ export const useCelebrityStore = defineStore("celebrity", {
             env.dialogs.celebrityForm = false;
             env.dialogs.celebrityList = true;
         },
-        deleteItem() {
+        deleteItem(cb) {
             this.loading = true;
             api.delete(`${this.url}/${this.item.id}`)
                 .then(res => {
                     if (res.status === 200) {
                         this.item = {};
+                        cb("success", "Успешно изтрита знаменитост.");
                         this.getItems();
+                        return;
                     }
+
+                    ch("error", res.data.message);
                 })
-                .catch(err => console.log(err))
+                .catch(err => {
+                    cb("error", err.message);
+                })
                 .finally(() => this.loading = false);
         }
     }
@@ -122,13 +131,15 @@ export const useTheQuizStore = defineStore("the-quiz", {
             this.currentItemIndex--;
             this.getItem();
         },
-        checking() {
+        checking(cb) {
             const result = this.item.famous_name.toLowerCase() === this.form.famous_name.toLowerCase();
 
             if (result) {
                 this.stats.correctCount++;
+                cb("success");
             } else {
                 this.stats.incorrectCount++;
+                cb("wrong");
             }
 
             this.nextItem();

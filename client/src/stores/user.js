@@ -26,22 +26,28 @@ export const useUserStore = defineStore("user", {
         items: []
     }),
     actions: {
-        register() {
+        register(cb) {
             this.loading = true;
 
             api.post(this.urls.register, this.credentials)
                 .then((res) => {
                     if (res.data.status !== "success") {
                         this.alertMessages.error = res.data.message;
+                        cb("error", res.data.message);
                         return;
                     }
 
-                    this.login();
+                    cb("success", "Успешно регистриране на нов потребител.");
+                    const env = useEnvStore();
+                    env.dialogs.register = false;
+                    env.dialogs.login = true;
                 })
-                .catch((err) => console.log(err))
+                .catch((err) => {
+                    cb("error", err.message);
+                })
                 .finally(() => this.loading = false);
         },
-        login() {
+        login(cb) {
             this.loading = true;
 
             api.post(this.urls.login, this.credentials)
@@ -49,13 +55,14 @@ export const useUserStore = defineStore("user", {
                     if (res.data.status !== "success") {
                         this.alertMessages.error = res.data.message;
                         this.logout();
+                        cb("error", res.data.message);
                         return;
                     }
-
+                    cb("success", "Успешно влизане в профила.");
                     this.afterLogin(res.data.data.token);
                 })
                 .catch((err) => {
-                    console.log(err);
+                    cb("error", err.message);
                     this.alertMessages.error = err.message;
                 })
                 .finally(() => this.loading = false);

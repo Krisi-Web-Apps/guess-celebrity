@@ -8,7 +8,7 @@
             : "Редактиране на знаменитост"
         }}
       </h2>
-      <form @submit.prevent="celebrity.saveItem">
+      <form @submit.prevent="functions.handleSubmit">
         <base-input
           type="text"
           id="famous_name"
@@ -32,6 +32,8 @@
 </template>
 
 <script>
+import { useToast } from "vue-toast-notification";
+
 // stores
 import { useEnvStore } from "../../stores/env";
 import { useCelebrityStore } from "../../stores/celebrity";
@@ -60,11 +62,19 @@ export default {
   setup() {
     const env = useEnvStore();
     const celebrity = useCelebrityStore();
+    const toast = useToast();
 
     const functions = {
       handleClose: () => {
         env.dialogs.celebrityForm = false;
         env.dialogs.celebrityList = true;
+      },
+      showNotification: (status, message) => {
+        if (status === "success") toast.success(message);
+        if (status === "error") toast.error(message);
+      },
+      handleSubmit: () => {
+        celebrity.saveItem(functions.showNotification);
       },
     };
 

@@ -24,6 +24,8 @@
 </template>
 
 <script>
+import { useToast } from "vue-toast-notification";
+
 // stores
 import { onMounted, ref } from "vue";
 import { useTheQuizStore } from "../../stores/celebrity";
@@ -33,21 +35,24 @@ export default {
   setup() {
     const theQuiz = useTheQuizStore();
     const famousName = ref(null);
+    const toast = useToast();
+
+    const functions = {
+      handleChecking: () => {
+        theQuiz.checking(functions.showNotification);
+        famousName.value.focus();
+      },
+      showNotification: (status) => {
+        if (status === "success") toast.success("Браво!");
+        if (status === "wrong") toast.error("Опсс! Опитайте пак.");
+      },
+    };
 
     onMounted(() => {
       famousName.value.focus();
     });
 
-    const handleChecking = () => {
-      theQuiz.checking();
-      famousName.value.focus();
-    };
-
-    const restart = () => {
-      console.log(0);
-    }
-
-    return { theQuiz, famousName, handleChecking, restart };
+    return { theQuiz, famousName, ...functions };
   },
 };
 </script>
