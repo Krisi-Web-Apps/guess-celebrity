@@ -11,3 +11,4 @@ export { default as CelebrityIcon } from "./CelebrityIcon.vue";
 export { default as PhotoIcon } from "./PhotoIcon.vue";
 export { default as EllipsisVerticalIcon } from "./EllipsisVerticalIcon.vue";
 export { default as UsersIcon } from "./UsersIcon.vue";
+export { default as ListBulletIcon } from "./ListBulletIcon.vue";

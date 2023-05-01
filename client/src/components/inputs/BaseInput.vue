@@ -22,6 +22,8 @@ import {
   LockClosedIcon,
   CelebrityIcon,
   PhotoIcon,
+  ListBulletIcon,
+  UserPlusIcon,
 } from "../../icons";
 
 export default {
@@ -61,6 +63,8 @@ export default {
     LockClosedIcon,
     CelebrityIcon,
     PhotoIcon,
+    ListBulletIcon,
+    UserPlusIcon,
   },
   setup(props) {
     return { props };

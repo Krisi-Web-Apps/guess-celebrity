@@ -9,14 +9,33 @@ import { shuffle } from "../utils";
 export const useCelebrityStore = defineStore("celebrity", {
     state: () => ({
         loading: false,
-        url: "/celebrities",
+        urls: {
+            initial: "/celebrities",
+            bulk: "/celebrities/bulk",
+        },
         item: {},
-        items: []
+        items: [],
+        multi: {
+            count: 1,
+            maxCount: 100,
+            items: [],
+        },
     }),
     actions: {
+        generateMultiItems(cb) {
+            if (this.multi.count > this.multi.maxCount) {
+                cb("error", "Прекалено много клетки!");
+                this.multi.count = this.multi.maxCount;
+            }
+            let array = [];
+            for (let i = 1; i <= this.multi.count; i++) {
+                array.push({});
+            }
+            this.multi.items = array;
+        },
         getItem() {
             this.loading = true;
-            api.get(`${this.url}/${this.item.id}`)
+            api.get(`${this.urls.initial}/${this.item.id}`)
                 .then(res => {
                     if (typeof res.data.data === "object") {
                         this.item = res.data.data[0];
@@ -27,7 +46,7 @@ export const useCelebrityStore = defineStore("celebrity", {
         },
         getItems() {
             this.loading = true;
-            api.get(this.url)
+            api.get(this.urls.initial)
                 .then(res => {
                     if (res.status === 200) {
                         this.items = res.data.data;
@@ -38,7 +57,7 @@ export const useCelebrityStore = defineStore("celebrity", {
         },
         saveItem(cb) {
             this.loading = true;
-            api.post(this.url, this.item)
+            api.post(this.urls.initial, this.item)
                 .then(res => {
                     if (typeof res.data.data === "number") {
                         this.item.id = res.data.data;
@@ -51,6 +70,24 @@ export const useCelebrityStore = defineStore("celebrity", {
                 })
                 .finally(() => this.loading = false);
         },
+        saveItemsBulk(cb) {
+            this.loading = true;
+            api.post(this.urls.bulk, this.multi.items)
+                .then(res => {
+                    if (typeof res.data.data === "object") {
+                        this.getItems();
+                        setTimeout(() => this.afterSaving(), 3000);
+                        this.generateMultiItems();
+                        cb("success", "Успешно са създадени новите знаменитости.");
+                        return;
+                    }
+                    cb("error", res.data.message);
+                })
+                .catch(err => {
+                    cb("error", res.data.message);
+                })
+                .finally(() => this.loading = false);
+        },
         afterSaving() {
             const env = useEnvStore();
             env.dialogs.celebrityForm = false;
@@ -58,7 +95,7 @@ export const useCelebrityStore = defineStore("celebrity", {
         },
         deleteItem(cb) {
             this.loading = true;
-            api.delete(`${this.url}/${this.item.id}`)
+            api.delete(`${this.urls.initial}/${this.item.id}`)
                 .then(res => {
                     if (res.status === 200) {
                         this.item = {};

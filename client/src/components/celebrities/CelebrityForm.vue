@@ -1,6 +1,6 @@
 <template>
-  <custom-dialog @close="functions.handleClose">
-    <div class="p-5">
+  <custom-dialog @close="functions.handleClose" size="w-5/6 h-5/6">
+    <div class="w-full h-full p-5 overflow-y-scroll">
       <h2 class="text-2xl text-center">
         {{
           !celebrity.item.id
@@ -8,32 +8,17 @@
             : "Редактиране на знаменитост"
         }}
       </h2>
-      <form @submit.prevent="functions.handleSubmit">
-        <base-input
-          type="text"
-          id="famous_name"
-          label="Име"
-          icon="celebrity-icon"
-          placeholder="Въведете името или псевдонима..."
-          v-model:title="celebrity.item.famous_name"
-        />
-        <base-input
-          type="text"
-          id="image_url"
-          label="Адрес на Снимка"
-          icon="photo-icon"
-          placeholder="Въведете адрес на снимка..."
-          v-model:title="celebrity.item.image_url"
-        />
-        <base-button type="submit" label="Запазване на знаменитост" />
-      </form>
+      <div class="py-5 flex items-center">
+        <input type="checkbox" id="multi" class="checkbox" v-model="celebrity.item.multi">
+        <label for="multi" class="pl-2">Създаване на много</label>
+      </div>
+      <single-form v-if="!celebrity.item.multi" />
+      <multi-form v-else />
     </div>
   </custom-dialog>
 </template>
 
 <script>
-import { useToast } from "vue-toast-notification";
-
 // stores
 import { useEnvStore } from "../../stores/env";
 import { useCelebrityStore } from "../../stores/celebrity";
@@ -41,11 +26,11 @@ import { useCelebrityStore } from "../../stores/celebrity";
 // dialogs
 import { CustomDialog } from "../dialogs";
 
-// inputs
-import { BaseInput } from "../inputs";
-
 // buttons
 import { BaseButton } from "../buttons";
+
+// components
+import { SingleForm, MultiForm } from "./forms";
 
 export default {
   name: "CelebrityForm",
@@ -53,28 +38,21 @@ export default {
     // dialogs
     CustomDialog,
 
-    // inputs
-    BaseInput,
-
     // buttons
     BaseButton,
+
+    // components
+    SingleForm,
+    MultiForm,
   },
   setup() {
     const env = useEnvStore();
     const celebrity = useCelebrityStore();
-    const toast = useToast();
 
     const functions = {
       handleClose: () => {
         env.dialogs.celebrityForm = false;
         env.dialogs.celebrityList = true;
-      },
-      showNotification: (status, message) => {
-        if (status === "success") toast.success(message);
-        if (status === "error") toast.error(message);
-      },
-      handleSubmit: () => {
-        celebrity.saveItem(functions.showNotification);
       },
     };
 
