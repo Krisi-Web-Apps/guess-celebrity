@@ -83,6 +83,7 @@ export const useUserStore = defineStore("user", {
             localStorage.clear();
             api.defaults.headers.authorization = null;
             this.isLoggedIn = false;
+            this.me = {};
         },
         getUser() {
             api.get(this.urls.user)
